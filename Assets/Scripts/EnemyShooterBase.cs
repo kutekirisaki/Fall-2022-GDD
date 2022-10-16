@@ -2,38 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyShooterBase : MonoBehaviour
+public abstract class EnemyShooterBase : EnemyBase
 {
-    [SerializeField] protected Transform firingOrigin = null;
-    [SerializeField] protected GameObject bulletPrefab = null;
-    [SerializeField] protected float bulletForce = 20f;
-    [SerializeField] protected float fireInterval = 2f;
-    [SerializeField] protected float playerProximityLimit = 10f;
-
-    protected Rigidbody2D rb;
-    protected PlayerMovement player;
-
-    protected bool seePlayer = false;
-    protected float fireTimer;
-    protected bool shooting = false;
-
-    protected virtual void Start()
+    protected override void Start()
     {
-        player = FindObjectOfType<PlayerMovement>();
-        rb = GetComponent<Rigidbody2D>();
-        fireTimer = fireInterval;
+        base.Start();
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
-        if (player == null)
-        {
-            return;
-        }
-
-        CheckPlayerProximity();
-        FacePlayerIfSeen();
-        FirePlayerIfSeen();
+        base.Update();
     }
 
     public bool GetIsShooting()
@@ -41,38 +19,21 @@ public abstract class EnemyShooterBase : MonoBehaviour
         return shooting;
     }
 
-    private void FacePlayerIfSeen()
+    protected override void FirePlayerIfSeen()
+    
     {
-        if (seePlayer)
+        if (seePlayer && fireTimer <= Mathf.Epsilon)
         {
-            Debug.Log("See!");
-            Vector2 playerPos = player.gameObject.transform.position;
-            Vector2 lookDirection = playerPos - rb.position;
-            float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
-            rb.rotation = angle;
+            Debug.Log("Fire!");
+            GameObject bulletInstance = Instantiate(bulletPrefab, firingOrigin.position, firingOrigin.rotation);
+            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>();
+            rb.AddForce(-1 * firingOrigin.up * bulletForce, ForceMode2D.Impulse);
+            fireTimer = fireInterval;
+        }
+        else if (seePlayer && fireTimer > Mathf.Epsilon)
+        {
+            fireTimer = Mathf.Max(0f, fireTimer - Time.deltaTime);
         }
     }
 
-    protected virtual void FirePlayerIfSeen()
-    {
-        
-    }
-
-    private void CheckPlayerProximity()
-    {
-        if (player.gameObject.layer == gameObject.layer)
-        {
-            // same layer, then check distance
-            if (Vector2.Distance(player.gameObject.transform.position, transform.position) <
-                playerProximityLimit)
-            {
-                // player in range
-                seePlayer = true;
-                shooting = true;
-                return;
-            }
-        }
-        seePlayer = false;
-        shooting = false;
-    }
 }

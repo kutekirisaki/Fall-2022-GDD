@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyBomber : EnemyShooterBase
 {
-    [SerializeField] private float speedMultiplier = 2f;
     [SerializeField] private int damage = 5;
     [SerializeField] private GameObject hitVFX = null;
 
@@ -16,15 +15,6 @@ public class EnemyBomber : EnemyShooterBase
     protected override void Update()
     {
         base.Update();
-    }
-
-    protected override void FirePlayerIfSeen()
-    {
-        if (seePlayer)
-        {
-            var player = FindObjectOfType<PlayerMovement>();
-            GetComponentInChildren<EnemyMovement>().MoveTo(player.transform.position, speedMultiplier);
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

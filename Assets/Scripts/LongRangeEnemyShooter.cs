@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LongRangeEnemyShooter : EnemyShooterBase
 {
@@ -14,19 +15,12 @@ public class LongRangeEnemyShooter : EnemyShooterBase
         base.Update();
     }
 
-    protected override void FirePlayerIfSeen()
+    protected override void FollowPLayerIfSeen()
     {
-        if (seePlayer && fireTimer <= Mathf.Epsilon)
+        if (seePlayer)
         {
-            Debug.Log("Fire!");
-            GameObject bulletInstance = Instantiate(bulletPrefab, firingOrigin.position, firingOrigin.rotation);
-            Rigidbody2D rb = bulletInstance.GetComponent<Rigidbody2D>();
-            rb.AddForce(-1 * firingOrigin.up * bulletForce, ForceMode2D.Impulse);
-            fireTimer = fireInterval;
-        }
-        else if (seePlayer && fireTimer > Mathf.Epsilon)
-        {
-            fireTimer = Mathf.Max(0f, fireTimer - Time.deltaTime);
+            var player = FindObjectOfType<PlayerMovement>();
+            GetComponentInChildren<EnemyMovement>().MoveTo(player.transform.position, speedMultiplier);
         }
     }
 }
