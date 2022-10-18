@@ -32859,8 +32859,10 @@ MonoBehaviour:
   fireInterval: 2
   playerProximityLimit: 10
   speedMultiplier: 1
+  bulletPrefab: {fileID: 0}
+  bulletForce: 20
   damage: 5
-  hitVFX: {fileID: 0}
+  hitVFX: {fileID: 8699622481109766837, guid: 7439d0ef06103c94586d875be5b5dc5e, type: 3}
 --- !u!1001 &1951739337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33459,6 +33461,8 @@ MonoBehaviour:
   fireInterval: 2
   playerProximityLimit: 10
   speedMultiplier: 1
+  bulletPrefab: {fileID: 0}
+  bulletForce: 20
 --- !u!1001 &2055511854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34803,6 +34807,8 @@ MonoBehaviour:
   fireInterval: 2
   playerProximityLimit: 10
   speedMultiplier: 1
+  bulletPrefab: {fileID: 0}
+  bulletForce: 20
 --- !u!1001 &342175276249406876
 PrefabInstance:
   m_ObjectHideFlags: 0

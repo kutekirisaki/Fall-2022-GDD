@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class EnemyShooterBase : EnemyBase
 {
+    [SerializeField] protected GameObject bulletPrefab = null;
+    [SerializeField] protected float bulletForce = 20f;
+
     protected override void Start()
     {
         base.Start();

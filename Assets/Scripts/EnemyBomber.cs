@@ -9,6 +9,7 @@ public class EnemyBomber : EnemyShooterBase
 
     protected override void Start()
     {
+        speedMultiplier = 2f;
         base.Start();
     }
 
@@ -21,6 +22,7 @@ public class EnemyBomber : EnemyShooterBase
     {
         if (collision.gameObject.tag == "Player")
         {
+            Debug.Log("BOOOM!");
             collision.gameObject.GetComponent<Health>().TakeDamage(damage);
             GameObject vfx = Instantiate(hitVFX, transform.position, Quaternion.identity);
             vfx.layer = gameObject.layer;
